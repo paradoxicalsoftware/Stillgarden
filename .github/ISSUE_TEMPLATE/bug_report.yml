@@ -1,0 +1,27 @@
+name: Bug report
+description: Help us understand something that isn't working.
+title: "[Bug] "
+labels: [bug]
+body:
+  - type: markdown
+    attributes:
+      value: "Thanks for helping. Please omit personal health details, private files and credentials."
+  - type: input
+    id: version
+    attributes:
+      label: App and macOS version
+      placeholder: "Stillgarden 1.0.0 · macOS 15 · Apple silicon"
+    validations:
+      required: true
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: What happened, and how can we reproduce it?
+      description: Include expected behavior and the steps that lead to the problem.
+    validations:
+      required: true
+  - type: textarea
+    id: context
+    attributes:
+      label: Relevant settings or screenshots
+      description: Weather, clock mode, growth speed, approximate plant count, and images if useful.
