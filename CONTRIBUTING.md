@@ -38,3 +38,7 @@ By submitting a contribution, you agree that your contribution is offered under 
 - Add a focused test for a real persistence or timing edge case.
 
 Maintainers may take time to respond. This is a labor of love, not a paid support contract. Kindness and clear context go a long way.
+
+## Portable editions
+
+For Windows, Linux or web work, see [PLATFORM_SUPPORT.md](PLATFORM_SUPPORT.md). Keep the simulation independent of the DOM. Run `npm test`, `npm run smoke:desktop`, and `npm run build:web`. Commit the generated `docs/play/` files as well as their `web/` sources. Check keyboard navigation, a narrow mobile viewport, audio enable/mute, saving after reload, and reset/undo. Platform-specific changes should explain which operating systems or window managers were tested. Never disable Electron's sandbox or expose unrestricted IPC to the renderer.

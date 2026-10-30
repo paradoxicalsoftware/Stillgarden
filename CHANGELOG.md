@@ -1,5 +1,15 @@
 # Changelog
 
+## 1.1.0 — 2026-10-29
+
+- Added Windows x64 installer and Linux x64 AppImage / Debian package.
+- Added a playable, responsive web garden with offline caching.
+- Ported flower anatomy, wildlife, smooth day/night, weather, seasonal audio and persistent snow to a shared Canvas engine.
+- Added portable save export/import, native Mac save import, and persistent reset/import undo.
+- Added accessible plant selection and keyboard planting, plus desktop pinning, tray controls and gentle visits.
+- Added sandboxed desktop packaging, model tests and packaged startup checks on Windows and Linux.
+- Kept the native Mac edition and published explicit platform limitations.
+
 ## 1.0.0 — 2026-10-29
 
 First public release of Stillgarden by Paradoxical Software.

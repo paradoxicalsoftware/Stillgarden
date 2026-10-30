@@ -36,7 +36,7 @@ if(!app.requestSingleInstanceLock()){app.quit();}else{
   session.defaultSession.setPermissionRequestHandler((_web,_permission,callback)=>callback(false));
   session.defaultSession.setPermissionCheckHandler(()=>false);
   // Desktop assets and code are bundled; only explicitly clicked links leave the app.
-  session.defaultSession.webRequest.onBeforeRequest((details,callback)=>callback({cancel:!['garden:','devtools:'].includes(new URL(details.url).protocol)&&!(details.url.startsWith(pathToFileURL(WEB+path.sep).href))}));
+  session.defaultSession.webRequest.onBeforeRequest((details,callback)=>callback({cancel:!['garden:','devtools:','blob:'].includes(new URL(details.url).protocol)&&!(details.url.startsWith(pathToFileURL(WEB+path.sep).href))}));
   win=new BrowserWindow({width:680,height:680,minWidth:440,minHeight:500,frame:false,show:false,backgroundColor:'#e8eddf',icon:path.join(WEB,'assets/icon.png'),webPreferences:{preload:path.join(__dirname,'preload.cjs'),contextIsolation:true,nodeIntegration:false,sandbox:true,backgroundThrottling:false}});
   win.setMenu(null);win.webContents.setWindowOpenHandler(()=>({action:'deny'}));
   win.webContents.on('will-navigate',(event,url)=>{if(!url.startsWith('garden://app/'))event.preventDefault();});

@@ -28,3 +28,7 @@ Seasonal bird and cricket beds, rain, wind and the three thunder variants are ge
 ## Botanical references
 
 Illustrated growth habits were informed by [RHS lavender guidance](https://www.rhs.org.uk/plants/lavender) and [OSU sunflower varieties](https://extension.oregonstate.edu/catalog/em-9866-grow-your-own-sunflowers). Those references are not bundled assets. Growth rates and lifecycles remain intentionally accelerated and simplified.
+
+## Portable editions
+
+The Canvas renderer and JavaScript simulation were ported from the original SwiftUI implementation. Portable JPEG/MP3 resources are compressed derivatives of the same credited backdrop and audio. Electron (MIT) provides the desktop runtime; its bundled Chromium, Node.js and other third-party notices ship with the desktop distribution. The app's npm dependencies are build tools, not remotely loaded code.

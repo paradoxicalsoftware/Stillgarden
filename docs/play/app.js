@@ -20,7 +20,7 @@ function displayWeather(now){const target=M.weather(state,now);if(!weatherTransi
 function tick(now=Date.now()){M.advance(state,Math.max(0,(now-lastTick)/1000),now);lastTick=now;}
 function revealControls(){lastEdge=Date.now();document.body.classList.remove('ui-hidden');$('header').inert=false;$('controls').inert=false;}
 function sync(){
- $('sound').textContent=state.soundEnabled?'Sound on':'Sound off';$('sound').setAttribute('aria-label',state.soundEnabled?'Mute ambient sound':'Enable ambient sound');$('sound').setAttribute('aria-pressed',String(state.soundEnabled));
+ $('sound').textContent=state.soundEnabled?(audio.unlocked?'Sound on':'Start sound'):'Sound off';$('sound').setAttribute('aria-label',state.soundEnabled?'Mute ambient sound':'Enable ambient sound');$('sound').setAttribute('aria-pressed',String(state.soundEnabled));
  $('immersive').textContent=state.gardenOnly?'Keep UI':'Hide UI';$('immersive').setAttribute('aria-label',state.gardenOnly?'Keep controls visible':'Hide controls until edge hover');$('pin').textContent=state.pinned?'Pinned':'Pin';$('pin').setAttribute('aria-pressed',String(state.pinned));
  for(const key of ['daylightMode','cycleHour','daySpeed','weatherMode','seasonMode','volume','interval','duration','speed'])$(key).value=state[key];
  for(const key of ['southernHemisphere','lightningEnabled','soundEnabled','gardenOnly','reminders'])$(key).checked=state[key];
@@ -47,7 +47,7 @@ $('plant-center').onclick=()=>addPlant(.2+Math.random()*.6,.72+Math.random()*.18
 $('selected').onchange=()=>{selected=$('selected').value;sync();};
 for(const action of ['boost','bloom','branch','remove'])$(action).onclick=()=>{const f=state.flowers.find(f=>f.id===selected);if(!f)return;tick();if(action==='remove'){state.flowers=state.flowers.filter(p=>p.id!==selected);selected='';}else f.age=action==='bloom'?Math.max(f.age,M.growTimes[f.kind]):f.age+(action==='boost'?600:M.growTimes[f.kind]);sync();persist();};
 $('speed').onchange=()=>{tick();state.speed=Number($('speed').value);persist();};
-$('sound').onclick=async()=>{await audio.unlock();state.soundEnabled=!state.soundEnabled;sync();persist();};
+$('sound').onclick=async()=>{const resume=state.soundEnabled&&!audio.unlocked;await audio.unlock();state.soundEnabled=resume||!state.soundEnabled;sync();persist();};
 $('immersive').onclick=()=>{state.gardenOnly=!state.gardenOnly;revealControls();sync();persist();};
 $('pin').onclick=()=>{state.pinned=!state.pinned;prefs();sync();persist();};
 $('rest').onclick=rest;$('reveal').onclick=()=>reveal();
@@ -102,6 +102,7 @@ setInterval(()=>{const now=Date.now();tick(now);const mix=displayWeather(now),h=
  if(!bridge&&state.reminders&&!$('settings').open){if(hidden&&now>=revealAt)reveal();else if(!hidden&&hideAt&&now>=hideAt)rest();}
  if(state.gardenOnly&&!$('settings').open&&planting===null&&!document.querySelector('.chrome :focus-visible')&&now-lastEdge>1800){document.body.classList.add('ui-hidden');$('header').inert=true;$('controls').inert=true;}
  if(now-lastSave>10000){lastSave=now;persist();sync();}
+ if($('settings').open)$('hour-output').textContent=formatHour(h);
  $('weather-label').textContent=`${M.season(state)} · ${M.weatherName(state)} · ${formatHour(h)}`;
 },200);
 let lastFrame=0;function frame(now){requestAnimationFrame(frame);if(hidden||document.hidden||now-lastFrame<1000/30)return;lastFrame=now;const ms=Date.now();renderer.draw(state,ms,displayHour(ms),displayWeather(ms),strikes,document.body.classList.contains('ui-hidden')?'':selected);if(!ready){ready=true;bridge?.ready({flowers:state.flowers.length,canvas:!!renderer.c});}}

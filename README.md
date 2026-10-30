@@ -8,9 +8,9 @@
 </p>
 
 <p align="center"><b>A living garden above your desktop. A small invitation to pause.</b><br>
-Free, open source, and made with care by <a href="https://paradoxicalsw.com">Paradoxical Software</a>.</p>
+Mac · Windows · Linux · Web<br>Free, open source, and made with care by <a href="https://paradoxicalsw.com">Paradoxical Software</a>.</p>
 
-<p align="center"><a href="https://paradoxicalsoftware.github.io/Stillgarden/">Explore the garden</a> · <a href="https://github.com/paradoxicalsoftware/Stillgarden/releases/latest">Download for Mac</a> · <a href="CONTRIBUTING.md">Help it grow</a></p>
+<p align="center"><a href="https://paradoxicalsoftware.github.io/Stillgarden/">Explore the garden</a> · <a href="https://github.com/paradoxicalsoftware/Stillgarden/releases/latest">Download the app</a> · <a href="https://paradoxicalsoftware.github.io/Stillgarden/play/">Play in your browser</a> · <a href="CONTRIBUTING.md">Help it grow</a></p>
 
 <p align="center"><img src="docs/assets/day.png" alt="Stillgarden's illustrated clearing with daisies, lavender, cosmos, sunflowers, tulips and cornflowers" width="720"></p>
 
@@ -49,19 +49,24 @@ We're sharing it freely in support of mental health and the everyday practice of
 
 ## Download and open
 
-1. Get **Stillgarden-1.0.0-macOS-universal.zip** from [Releases](https://github.com/paradoxicalsoftware/Stillgarden/releases/latest).
-2. Unzip it and move **Stillgarden.app** to Applications.
-3. Open it, choose a seed, and click the moss to plant.
+**[Open the web garden →](https://paradoxicalsoftware.github.io/Stillgarden/play/)** or download a desktop edition from **[Releases](https://github.com/paradoxicalsoftware/Stillgarden/releases/latest)**.
 
-**Requirements:** macOS 13 Ventura or later. The universal download includes Apple silicon and Intel builds. The release has been run on Apple silicon; Intel is cross-compiled but not yet tested on Intel hardware.
+| Platform | Choose |
+| --- | --- |
+| macOS 13+ · Apple silicon and Intel | `Stillgarden-1.1.0-macOS-universal.zip` — unzip and move to Applications |
+| Windows 10/11 · x64 | `Stillgarden-1.1.0-Windows-x64-Setup.exe` |
+| Linux · x64 | AppImage or `.deb` package |
+| Web · desktop and mobile | Current browser; saves stay in that browser |
 
-**First-launch note:** this community release is ad-hoc signed and is **not Apple-notarized**. macOS may block it. Review the source and release checksum, then follow [Apple's guidance for opening trusted software](https://support.apple.com/en-us/102445), or build it yourself below. We do not ask you to disable Gatekeeper or run a security-bypass command.
+The Windows and Linux editions share the web garden engine. The original Mac app remains native SwiftUI. Desktop editions can stay above your apps; Linux Wayland window placement depends on your compositor. The web edition stays in its tab. See [platform support, installation details and known limitations](PLATFORM_SUPPORT.md).
 
-No account. No ads. No analytics. The app runs locally. Website links open only when you click them. [Privacy details](PRIVACY.md).
+**Community builds:** Windows is unsigned, and Mac is ad-hoc signed and **not Apple-notarized**. Your operating system may block first launch. Review the source and release checksums; for Mac, see [Apple's guidance for opening trusted software](https://support.apple.com/en-us/102445). Intel Mac is cross-compiled but not yet tested on Intel hardware.
+
+No account. No ads. No analytics. Desktop gardens run locally; the web garden downloads its assets and saves locally. [Privacy details](PRIVACY.md).
 
 ## Build from source
 
-Install Xcode Command Line Tools and use a current Swift toolchain (Swift 6 recommended; release built with Swift 6.3).
+For the **native Mac app**, install Xcode Command Line Tools and use a current Swift toolchain (Swift 6 recommended; release built with Swift 6.3).
 
 ```sh
 git clone https://github.com/paradoxicalsoftware/Stillgarden.git
@@ -82,6 +87,8 @@ For a universal release:
 No third-party Swift packages are required. The app uses AppKit, SwiftUI and AVFoundation. Included audio assets play without Python; regenerating synthesized audio requires Python, NumPy and macOS `afconvert`.
 
 The save file lives at `~/Library/Application Support/Stillgarden/garden.json`. Reset creates `before-reset.json` in the same directory. Don't put either file in an issue or commit unless you've reviewed its contents.
+
+For **Windows, Linux and web development**, use Node.js 22+: `npm ci`, `npm test`, then `npm start`. See the [portable build guide](PLATFORM_SUPPORT.md#development).
 
 ## Help this garden grow
 
