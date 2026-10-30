@@ -1,0 +1,58 @@
+name: Cross-platform builds
+on:
+  push:
+    branches: [main, cross-platform]
+  pull_request:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  desktop:
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: windows-latest
+            target: win
+            label: Windows
+          - os: ubuntu-24.04
+            target: linux
+            label: Linux
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npm test
+      - name: Check generated web edition
+        run: |
+          npm run build:web
+          git diff --exit-code -- docs/play
+      - name: Build desktop release
+        run: npm run package:desktop -- --${{ matrix.target }} --x64
+        env:
+          CSC_IDENTITY_AUTO_DISCOVERY: 'false'
+      - name: Smoke test packaged Windows app
+        if: runner.os == 'Windows'
+        shell: pwsh
+        run: |
+          $process = Start-Process -FilePath 'dist/desktop/win-unpacked/Stillgarden.exe' -ArgumentList '--smoke-test' -PassThru -Wait
+          if ($process.ExitCode -ne 0) { throw "Desktop smoke test failed: $($process.ExitCode)" }
+      - name: Smoke test packaged Linux app
+        if: runner.os == 'Linux'
+        run: |
+          sudo chown root dist/desktop/linux-unpacked/chrome-sandbox
+          sudo chmod 4755 dist/desktop/linux-unpacked/chrome-sandbox
+          xvfb-run -a dist/desktop/linux-unpacked/stillgarden --smoke-test
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: Stillgarden-${{ matrix.label }}
+          path: |
+            dist/desktop/*.exe
+            dist/desktop/*.AppImage
+            dist/desktop/*.deb
+          if-no-files-found: error
+          retention-days: 14

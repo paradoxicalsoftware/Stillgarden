@@ -915,7 +915,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate {
         garden.configureReminders(); garden.startExperience()
     }
     @objc func website() { NSWorkspace.shared.open(URL(string:"https://paradoxicalsw.com")!) }
-    @objc func about() { NSApp.orderFrontStandardAboutPanel(options:[.applicationName:"Stillgarden",.applicationVersion:"1.0.0",.credits:NSAttributedString(string:"A small garden for your desktop.\nA labor of love by Paradoxical Software.\nhttps://paradoxicalsw.com")]) }
+    @objc func about() { NSApp.orderFrontStandardAboutPanel(options:[.applicationName:"Stillgarden",.applicationVersion:"1.1.0",.credits:NSAttributedString(string:"A small garden for your desktop.\nA labor of love by Paradoxical Software.\nhttps://paradoxicalsw.com")]) }
     @objc func show() { garden.reveal(); if garden.state.reminders { garden.hideAt = Date().addingTimeInterval(garden.state.duration) } }
     @objc func sound() { garden.toggleSound() }
     @objc func chrome() { garden.state.gardenOnly = !garden.immersive; garden.controlsVisible = true; garden.updateChrome(); garden.save() }

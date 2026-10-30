@@ -1,0 +1,29 @@
+{
+  "name": "stillgarden",
+  "version": "1.1.0",
+  "description": "A living garden for your desktop. A little room to breathe.",
+  "author": "Paradoxical Software <contact@paradoxicalsw.com>",
+  "license": "MIT",
+  "homepage": "https://paradoxicalsoftware.github.io/Stillgarden/",
+  "repository": "https://github.com/paradoxicalsoftware/Stillgarden",
+  "type": "module",
+  "main": "desktop/main.cjs",
+  "scripts": {
+    "start": "electron .",
+    "test": "node --test tests/*.test.mjs",
+    "build:web": "node scripts/build-web.mjs",
+    "package:desktop": "electron-builder --publish never",
+    "smoke:desktop": "electron . --smoke-test"
+  },
+  "devDependencies": {"electron": "45.1.0", "electron-builder": "26.18.0"},
+  "build": {
+    "appId": "com.paradoxicalsoftware.stillgarden",
+    "productName": "Stillgarden",
+    "directories": {"output": "dist/desktop", "buildResources": "web/assets"},
+    "files": ["desktop/**/*", "web/**/*", "package.json", "LICENSE", "CREDITS.md"],
+    "asar": true,
+    "win": {"target": [{"target": "nsis", "arch": ["x64"]}], "icon": "web/assets/icon.png", "artifactName": "Stillgarden-${version}-Windows-${arch}-Setup.${ext}"},
+    "nsis": {"oneClick": false, "allowToChangeInstallationDirectory": true, "deleteAppDataOnUninstall": false},
+    "linux": {"target": ["AppImage", "deb"], "category": "Utility", "icon": "web/assets/icon.png", "artifactName": "Stillgarden-${version}-Linux-${arch}.${ext}", "maintainer": "Paradoxical Software <contact@paradoxicalsw.com>"}
+  }
+}
